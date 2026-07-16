@@ -1,0 +1,6 @@
+{
+  "name": "JusFlow",
+  "description": "Sistema Jurídico SaaS de alta performance com Inteligência Artificial para Advogados. Inclui CRM, Processos, Timeline Unificada, Kanban de Tarefas, Financeiro e Copiloto Jurídico.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
