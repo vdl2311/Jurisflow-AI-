@@ -120,3 +120,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide Next.js dev indicators and development overlays */
+next-dev-indicator,
+.nextjs-portal,
+#next-route-announcer,
+.nextjs-static-indicator,
+[data-nextjs-toast-container],
+[data-nextjs-dialog-overlay] {
+  display: none !important;
+}
+
