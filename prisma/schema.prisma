@@ -285,3 +285,117 @@ model Subscription {
   endDate     DateTime?
   createdAt   DateTime @default(now())
 }
+// ============ MODELOS INSPIRADOS NA NORM.AI ============
+
+// Agente jurídico autônomo - executa tarefas completas (não só responde)
+model Agent {
+  id            String   @id @default(cuid())
+  name          String   // ex: "Analisador de Contratos", "Verificador LGPD"
+  description   String
+  category      String   @default("Geral") // Contratos, Conformidade, Due Diligence, Pesquisa, Redação
+  capabilities  String?  // JSON com lista de capacidades
+  systemPrompt  String   // prompt do sistema que define o comportamento
+  tools         String?  // JSON com ferramentas disponíveis (search, generate, verify)
+  supervisionEnabled Boolean @default(true) // Supervisory AI (camada de verificação)
+  status        String   @default("Ativo") // Ativo, Pausado, Em Treinamento
+  icon          String?  // nome do ícone lucide
+  color         String?  // cor do card
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  runs          AgentRun[]
+}
+
+// Execução de um agente - registra input, output e verificação da Supervisory AI
+model AgentRun {
+  id            String   @id @default(cuid())
+  agentId       String
+  agent         Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  task          String   // descrição da tarefa solicitada
+  input         String?  // JSON com parâmetros de entrada
+  output        String   // resultado principal do agente
+  supervision   String?  // verificação da Supervisory AI (segunda IA que valida)
+  supervisionPassed Boolean @default(false)
+  supervisionNotes String? // observações do supervisor
+  status        String   @default("Concluído") // Pendente, Em Execução, Concluído, Erro, Rejeitado
+  duration      Int?     // duração em ms
+  tokensUsed    Int?     // tokens consumidos
+  processId     String?  // processo relacionado (opcional)
+  clientId      String?  // cliente relacionado (opcional)
+  userId        String?  // usuário que disparou
+  createdAt     DateTime @default(now())
+}
+
+// Base de conhecimento - artigos, teses, precedentes acumulados por caso
+model KnowledgeArticle {
+  id            String   @id @default(cuid())
+  title         String
+  content       String   // conteúdo completo (markdown)
+  summary       String?  // resumo gerado por IA
+  category      String   // Jurisprudência, Doutrina, Tese, Caso Prático, Modelo
+  area          String?  // Trabalhista, Cível, Tributário, etc
+  tags          String?  // tags separadas por vírgula
+  source        String?  // STJ, STF, TST, Doutrina, Caso Próprio
+  sourceUrl     String?  // URL original
+  author        String?  // advogado que criou
+  confidence    Int      @default(80) // 0-100 nível de confiança
+  verified      Boolean  @default(false) // verificado por advogado sênior
+  processId     String?  // processo que originou o conhecimento
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Regra de conformidade - regras codificadas (LGPD, OAB, conflitos)
+model ComplianceRule {
+  id            String   @id @default(cuid())
+  name          String
+  category      String   // LGPD, OAB, Confidencialidade, Conflito de Interesse, Ética
+  description   String
+  rule          String   // regra em linguagem natural (IA interpreta)
+  severity      String   @default("Média") // Baixa, Média, Alta, Crítica
+  actionType    String   @default("Aviso") // Aviso, Bloqueio, Aprovação Manual
+  enabled       Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  checks        ComplianceCheck[]
+}
+
+// Verificação de conformidade - registro de cada verificação
+model ComplianceCheck {
+  id            String   @id @default(cuid())
+  ruleId        String
+  rule          ComplianceRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  entityType    String   // Process, Client, Contract, Document
+  entityId      String?
+  entityName    String?
+  passed        Boolean
+  notes         String?
+  checkedAt     DateTime @default(now())
+}
+
+// Padrões do escritório - risk posture, contexto institucional
+model FirmStandard {
+  id            String   @id @default(cuid())
+  category      String   // Risco, Confidencialidade, SLA, Comunicação, Qualidade
+  name          String
+  value         String   // valor do padrão
+  description   String?
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// Pricing por resultado (Outcome-Driven Pricing)
+model OutcomePricing {
+  id            String   @id @default(cuid())
+  name          String   // ex: "Sucesso em Audiência", "Acordo Fechado"
+  description   String
+  basePrice     Float    // preço base
+  successPrice  Float    // preço adicional se bem-sucedido
+  successCriteria String // critério de sucesso
+  area          String?  // área jurídica aplicável
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

@@ -23,7 +23,11 @@ import {
   Globe,
   Cloud,
   ScrollText,
+  Bot,
+  BookMarked,
+  ShieldCheck,
 } from 'lucide-react'
+
 import { cn } from '@/lib/utils'
 import { canView } from '@/lib/permissions'
 import type { ViewName } from '@/app/page'
@@ -50,12 +54,14 @@ const allGroups: NavGroup[] = [
       { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, desc: 'Visão geral' },
       { id: 'copilot', label: 'Copiloto IA', icon: Sparkles, desc: 'Chat jurídico' },
       { id: 'ai-juridica', label: 'IA Jurídica', icon: BookOpen, desc: 'Petições e revisão' },
+      { id: 'agents', label: 'Agentes IA', icon: Bot, desc: 'Autônomos com supervisão' },
     ],
   },
   {
     label: 'Operação',
     items: [
       { id: 'processes', label: 'Processos', icon: FolderKanban, desc: 'Casos' },
+      { id: 'datajud', label: 'DataJud (CNJ)', icon: Cloud, desc: 'Consulta tribunais' },
       { id: 'agenda', label: 'Agenda', icon: Calendar, desc: 'Calendário' },
       { id: 'deadlines', label: 'Prazos', icon: AlarmClock, desc: 'Fatais e internos' },
       { id: 'tasks', label: 'Tarefas', icon: CheckSquare, desc: 'Kanban' },
@@ -74,6 +80,8 @@ const allGroups: NavGroup[] = [
     label: 'Gestão',
     items: [
       { id: 'automations', label: 'Automações', icon: Zap, desc: 'Workflows' },
+      { id: 'knowledge', label: 'Conhecimento', icon: BookMarked, desc: 'Base jurídica' },
+      { id: 'compliance', label: 'Conformidade', icon: ShieldCheck, desc: 'LGPD + OAB' },
       { id: 'notifications', label: 'Notificações', icon: Bell, desc: 'Alertas' },
       { id: 'conflicts', label: 'Conflitos', icon: ShieldAlert, desc: 'Verificação OAB' },
       { id: 'reports', label: 'Relatórios', icon: BarChart3, desc: 'Múltiplos tipos' },

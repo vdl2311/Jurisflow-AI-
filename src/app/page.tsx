@@ -24,6 +24,10 @@ import { NotificationsView } from '@/components/views/notifications-view'
 import { AiJuridicaView } from '@/components/views/ai-juridica-view'
 import { ConflictsView } from '@/components/views/conflicts-view'
 import { AdminAuditView } from '@/components/views/audit-view'
+import { DatajudView } from '@/components/views/datajud-view'
+import { AgentsView } from '@/components/views/agents-view'
+import { KnowledgeView } from '@/components/views/knowledge-view'
+import { ComplianceView } from '@/components/views/compliance-view'
 import { canView } from '@/lib/permissions'
 import { ShieldAlert } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -49,6 +53,10 @@ export type ViewName =
   | 'notifications'
   | 'conflicts'
   | 'audit-log'
+  | 'datajud'
+  | 'agents'
+  | 'knowledge'
+  | 'compliance'
 
 interface User {
   id: string
@@ -142,7 +150,7 @@ export default function Home() {
   }
 
   // Tela de acesso negado
-  const AccessDenied = () => (
+  const renderAccessDenied = () => (
     <div className="flex flex-col items-center justify-center flex-1 p-6 text-center">
       <div className="rounded-full bg-amber-100 dark:bg-amber-950/40 p-4 mb-4">
         <ShieldAlert className="h-8 w-8 text-amber-600 dark:text-amber-400" />
@@ -185,7 +193,7 @@ export default function Home() {
             onLogout={handleLogout}
             onToggleMobileSidebar={() => setMobileSidebarOpen((v) => !v)}
           />
-          <AccessDenied />
+          {renderAccessDenied()}
         </div>
       </div>
     )
@@ -245,6 +253,10 @@ export default function Home() {
           {view === 'notifications' && <NotificationsView />}
           {view === 'conflicts' && <ConflictsView />}
           {view === 'audit-log' && <AdminAuditView user={user} />}
+          {view === 'datajud' && <DatajudView />}
+          {view === 'agents' && <AgentsView />}
+          {view === 'knowledge' && <KnowledgeView />}
+          {view === 'compliance' && <ComplianceView />}
         </main>
       </div>
 

@@ -44,6 +44,10 @@ const titles: Record<ViewName, { title: string; subtitle: string }> = {
   notifications: { title: 'Notificações', subtitle: 'Alertas e avisos do sistema' },
   conflicts: { title: 'Conflitos de Interesse', subtitle: 'Verificação conforme OAB' },
   'audit-log': { title: 'Log de Auditoria', subtitle: 'Registro completo de ações no sistema' },
+  datajud: { title: 'DataJud (CNJ)', subtitle: 'Consulta pública de processos em todos os tribunais' },
+  agents: { title: 'Agentes Jurídicos IA', subtitle: 'Agentes autônomos com Supervisory AI' },
+  knowledge: { title: 'Base de Conhecimento', subtitle: 'Jurisprudência, teses e casos acumulados' },
+  compliance: { title: 'Conformidade & Compliance', subtitle: 'Verificação automática LGPD, OAB e padrões' },
 }
 
 export function TopBar({ onOpenSearch, onOpenCopilot, view, user, onLogout, onToggleMobileSidebar }: TopBarProps) {
